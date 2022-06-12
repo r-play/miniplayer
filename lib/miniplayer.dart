@@ -50,7 +50,7 @@ class Miniplayer extends StatefulWidget {
   //Allows you to manually control the miniplayer in code
   final MiniplayerController? controller;
 
-  final VoidCallback? onBackPressed;
+  final PanelState? onBackState;
 
   const Miniplayer({
     Key? key,
@@ -65,7 +65,7 @@ class Miniplayer extends StatefulWidget {
     this.onDismiss,
     this.onDismissed,
     this.controller,
-    this.onBackPressed,
+    this.onBackState,
   }) : super(key: key);
 
   @override
@@ -162,11 +162,7 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
     return MiniplayerWillPopScope(
       onWillPop: () async {
         if (heightNotifier.value > widget.minHeight) {
-          if (widget.onBackPressed != null) {
-            widget.onBackPressed!();
-          } else {
-            _snapToPosition(PanelState.MIN);
-          }
+          _snapToPosition(widget.onBackState ?? PanelState.MIN);
           return false;
         }
         return true;
